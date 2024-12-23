@@ -25,6 +25,12 @@
 //   }
 // }
 
+.played-card {
+  right: 25px;
+  transform: scale(1.3) translateX(140px) translateY(-180px) rotate(-10deg);
+}
+
+
 .pick-card {
   // transition: all 125ms ease-in-out;
   // transform: scale(1.5) !important;    // damit :hover nicht stärker ist beim Anklicken
@@ -40,6 +46,9 @@
     transform: scale(1.7);
   }
   60% {
+    transform: scale(1.7);
+  }
+  80% {
     transform: scale(1.7);
   }
   100% {

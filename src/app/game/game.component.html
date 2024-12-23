@@ -1,11 +1,19 @@
+<app-player></app-player>
+
 <div class="field">
 
   <div class="card-stack">
+    <!-- Card stack -->
     <img *ngFor="let c of [0, 1, 2, 3]; let i = index;" [ngStyle]="{'right.px': i * 10}" src="assets/cards/card_cover.png" alt="">
 
     <!-- <img (click)="takeCard()" [class.pick-card]="pickCardAnimation" class="top-card" style="right: 40px" src="assets/cards/card_cover.png" alt=""> -->
 
     <img (click)="takeCard()" class="top-card" style="right: 40px" src="assets/cards/card_cover.png" alt="">
+    
+    <!-- Stack for played cards -->
+    <img *ngFor="let card of game.playedCard" class="played-card" src="assets/cards/{{ card }}.png" alt="">
+
+    <!-- damit die fliegende Karte über die gespielte Karte fliegt, muss sie DANACH im HTML eingefügt werden -->
     <img (click)="takeCard()" *ngIf="pickCardAnimation" class="top-card pick-card" style="right: 40px" src="assets/cards/{{ currentCard }}.png" alt="">
   </div>
 
