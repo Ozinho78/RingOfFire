@@ -2,11 +2,16 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Game } from '../../models/game';
 import { PlayerComponent } from "../player/player.component";
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
+import { GameInfoComponent } from "../game-info/game-info.component";
 
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [CommonModule, PlayerComponent],
+  imports: [CommonModule, PlayerComponent, MatButtonModule, MatIconModule, DialogAddPlayerComponent, GameInfoComponent],
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss'
 })
@@ -15,7 +20,7 @@ export class GameComponent {
   currentCard: string = '';
   game: Game;
 
-  constructor(){}
+  constructor(public dialog: MatDialog){}
 
   ngOnInit(): void{
     this.newGame();
@@ -42,11 +47,24 @@ export class GameComponent {
       // console.log('New card: ' + this.currentCard); // print the card that was picked
       // console.log('Game is: ', this.game);    // outlog game object
       
-
+      this.game.currentPlayer++;
+      this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;   // cycle through players array
       setTimeout(() => {      // nach 1,5 Sekunden wird die Animation wieder zurückgesetzt
         this.game.playedCard.push(this.currentCard);  // push currentCard into stack of played cards; pushed within timeout in order to not show the played card before the animation of the picked card finishes
         this.pickCardAnimation = false;
       }, 1000)
     }
   }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogAddPlayerComponent);
+
+    dialogRef.afterClosed().subscribe((name: string) => {
+      // console.log('The dialog was closed', name);
+      if(name && name.length > 0){        // wenn name existiert und nicht leer ist
+        this.game.players.push(name);
+      }
+    });
+  }
+
 }
